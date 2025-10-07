@@ -1,5 +1,5 @@
-# Design-of-FIR-Filters-using-rectangular-window
-#          DESIGN OF LOW PASS FIR DIGITAL FILTER 
+
+# DESIGN OF LOW PASS FIR DIGITAL FILTER 
 
 # AIM: 
           
@@ -10,40 +10,43 @@
   PC Installed with SCILAB 
 
 # PROGRAM 
-clc ;
-close ;
-M=input('Enter the Odd Filter Length =');
-Wc=input('Enter the Digital Cut off frequency =');
-alpha= (M -1)/2 // Center Value
-for n = 1:M
-if (n ==alpha+1)
-hd(n) = Wc/ %pi ;
-else
-hd(n) = sin(Wc *((n -1)-alpha)) /(((n -1)-alpha)*%pi);
-end
-end
-// Rectangular Window
-for n = 1:M
-W(n) = 1;
-end
-//Windowing filter coefficients
-h = hd.*W;
-disp(h,'Filter Coefficients are')
-[hzm,fr]= frmag (h,256) ;
-subplot(2 ,1 ,1)
-plot(2*fr, hzm)
-xlabel( ' Normalized Digital Frequency w');
-ylabel( 'Magnitude ');
-title( ' Frequency Response of FIR LPF using Rectangular Window ')
-hzm_dB = 20* log10 (hzm);
-subplot (2 ,1 ,2);
-plot(2*fr , hzm_dB);
-xlabel( ' Normalized Digital Frequency W' );
-ylabel( 'Magnitude in dB');
-title('Frequency Response of FIR LPF using Rectangular Window');
+```
+clc;
+clear;
+close;
+
+// Filter specifications
+forder = 33;                     // Filter order (odd number)
+cutoff_frequency = 0.2;          // Normalized cutoff frequency (0 < cutoff <= 0.5)
+window_type = "hm";              // Hamming window ("re" for rectangular, "hm" for Hamming, etc.)
+window_params = [0, 0];          // Window parameters (for Kaiser and Chebyshev windows)
+
+// Design FIR low pass filter and get frequency response
+[h, h_freq, fr] = wfir("lp", forder, [cutoff_frequency, 0], window_type, window_params);
+
+// Display filter coefficients
+disp(h, "Filter Coefficients:");
+
+// Plot magnitude response
+scf(0);
+subplot(2,1,1);
+plot(fr, abs(h_freq));
+xlabel("Normalized Frequency");
+ylabel("Magnitude");
+title("Frequency Response Magnitude of FIR Low Pass Filter");
+
+// Plot magnitude in dB
+subplot(2,1,2);
+plot(fr, 20*log10(abs(h_freq)));
+xlabel("Normalized Frequency");
+ylabel("Magnitude (dB)");
+title("Frequency Response (dB) of FIR Low Pass Filter");
+
+```
 
 # OUTPUT
-![dtsp 4a(1)](https://github.com/user-attachments/assets/59754358-6eac-4ddd-9484-0cd7e81e31f4)
+<img width="1919" height="958" alt="image" src="https://github.com/user-attachments/assets/10e374f0-36c4-40cc-82de-aff89a4899de" />
+
 
 # RESULT
-To generate design of low pass FIR digital filter using SCILAB is verified
+THUS,THE  DESIGN OF LOW PASS FIR DIGITAL FILTER  IS VERIFIED
